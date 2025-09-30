@@ -4,9 +4,9 @@ import importlib.util
 
 def _load_run_bf_module():
     here = os.path.dirname(__file__)
-    base = os.path.normpath(os.path.join(here, '..'))
-    run_bf_path = os.path.join(base, 'run_bf.py')
-    spec = importlib.util.spec_from_file_location('run_bf', run_bf_path)
+    base = os.path.normpath(os.path.join(here, ".."))
+    run_bf_path = os.path.join(base, "run_bf.py")
+    spec = importlib.util.spec_from_file_location("run_bf", run_bf_path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -14,9 +14,9 @@ def _load_run_bf_module():
 
 def test_hello_world_output():
     here = os.path.dirname(__file__)
-    bf_path = os.path.join(here, '..', 'modules', 'hello_world.bf')
+    bf_path = os.path.join(here, "..", "modules", "hello_world.bf")
     bf_path = os.path.normpath(bf_path)
-    with open(bf_path, 'r', encoding='utf-8') as f:
+    with open(bf_path, "r", encoding="utf-8") as f:
         code = f.read()
     run_bf = _load_run_bf_module()
     out, dbg = run_bf.run_brainfuck(code)
@@ -26,10 +26,13 @@ def test_hello_world_output():
 
 
 def test_multiplication_exact():
-    import importlib.util, os
+    import os
+
     here = os.path.dirname(__file__)
-    bf_path = os.path.normpath(os.path.join(here, '..', 'modules', 'multiplication_exact.bf'))
-    with open(bf_path, 'r', encoding='utf-8') as f:
+    bf_path = os.path.normpath(
+        os.path.join(here, "..", "modules", "multiplication_exact.bf")
+    )
+    with open(bf_path, "r", encoding="utf-8") as f:
         code = f.read()
     run_bf = _load_run_bf_module()
     out, dbg = run_bf.run_brainfuck(code)
@@ -41,9 +44,12 @@ def test_multiplication_exact():
 
 def test_fibonacci_exact():
     import os
+
     here = os.path.dirname(__file__)
-    bf_path = os.path.normpath(os.path.join(here, '..', 'modules', 'fibonacci_exact.bf'))
-    with open(bf_path, 'r', encoding='utf-8') as f:
+    bf_path = os.path.normpath(
+        os.path.join(here, "..", "modules", "fibonacci_exact.bf")
+    )
+    with open(bf_path, "r", encoding="utf-8") as f:
         code = f.read()
     run_bf = _load_run_bf_module()
     out, dbg = run_bf.run_brainfuck(code)
@@ -53,9 +59,10 @@ def test_fibonacci_exact():
 
 def test_char_io_exact():
     import os
+
     here = os.path.dirname(__file__)
-    bf_path = os.path.normpath(os.path.join(here, '..', 'modules', 'char_io_exact.bf'))
-    with open(bf_path, 'r', encoding='utf-8') as f:
+    bf_path = os.path.normpath(os.path.join(here, "..", "modules", "char_io_exact.bf"))
+    with open(bf_path, "r", encoding="utf-8") as f:
         code = f.read()
     run_bf = _load_run_bf_module()
     inp = bytes([65, 66])
@@ -65,9 +72,10 @@ def test_char_io_exact():
 
 def test_caesar_exact():
     import os
+
     here = os.path.dirname(__file__)
-    bf_path = os.path.normpath(os.path.join(here, '..', 'modules', 'caesar_exact.bf'))
-    with open(bf_path, 'r', encoding='utf-8') as f:
+    bf_path = os.path.normpath(os.path.join(here, "..", "modules", "caesar_exact.bf"))
+    with open(bf_path, "r", encoding="utf-8") as f:
         code = f.read()
     run_bf = _load_run_bf_module()
     inp = bytes([65])  # 'A' -> 'D'
