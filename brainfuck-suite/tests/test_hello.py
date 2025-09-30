@@ -7,7 +7,11 @@ def _load_run_bf_module():
     base = os.path.normpath(os.path.join(here, ".."))
     run_bf_path = os.path.join(base, "run_bf.py")
     spec = importlib.util.spec_from_file_location("run_bf", run_bf_path)
+    if spec is None:
+        raise ImportError(f"Could not load spec for {run_bf_path}")
     module = importlib.util.module_from_spec(spec)
+    if spec.loader is None:
+        raise ImportError(f"Could not load loader for {run_bf_path}")
     spec.loader.exec_module(module)
     return module
 
