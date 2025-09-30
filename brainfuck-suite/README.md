@@ -1,53 +1,79 @@
 # Brainfuck Computational Suite
 
-A small educational suite demonstrating algorithms implemented in Brainfuck.
+[![CI](https://github.com/iVGeek/BrainFuck-Computational-Suite/actions/workflows/python-tests.yml/badge.svg)](https://github.com/iVGeek/BrainFuck-Computational-Suite/actions/workflows/python-tests.yml)
 
-Contents:
-- run_bf.py - a tiny Python Brainfuck interpreter and CLI
-- modules/ - Brainfuck program files:
-  - hello_world.bf
-  - fibonacci.bf
-  - multiplication.bf
-  - char_io.bf
-  - calculator_add.bf
-  - caesar_encode.bf
+An educational collection of Brainfuck programs and a tiny Python interpreter used to run and test them.
 
-How to run:
+What you'll find
+- `run_bf.py` — a minimal, tested Brainfuck interpreter (CLI + API)
+- `modules/` — Brainfuck programs (Hello World, Fibonacci, Multiplication, I/O, simple utilities)
+- `tests/` — pytest-based tests exercising the interpreter and deterministic modules
+- `.github/workflows/` — CI workflow running tests, lint, black check, and mypy
 
-1. Run Hello World:
+Quick start
+1. Run Hello World (from repository root):
 
-    python run_bf.py modules/hello_world.bf
+```powershell
+python .\brainfuck-suite\run_bf.py .\brainfuck-suite\modules\hello_world.bf
+```
 
-2. Run Fibonacci:
+2. Run a deterministic multiplication example:
 
-    python run_bf.py modules/fibonacci.bf
+```powershell
+python .\brainfuck-suite\run_bf.py .\brainfuck-suite\modules\multiplication_exact.bf
+```
 
-3. Run multiplication:
+3. Run tests locally:
 
+```powershell
+python -m pytest -q
+```
 
-  - python -m pytest -q
+Using input
+- To provide a string input: pass it as the second argument.
+- To pipe raw bytes or read stdin: pass `-` as input or pipe into the command.
 
-Windows PowerShell examples (from repository root):
+Examples (PowerShell):
 
-     python .\brainfuck-suite\run_bf.py .\brainfuck-suite\modules\hello_world.bf
+```powershell
+# Run Caesar shift (interactive/pass string)
+python .\brainfuck-suite\run_bf.py .\brainfuck-suite\modules\caesar_exact.bf "A"
 
-Pipe binary input (example for calculator_add):
+# Pipe binary input (write two bytes and pipe to calculator_add)
+[System.IO.File]::WriteAllBytes('in.bin', (,[byte]4 + [byte]5)) ; Get-Content -Encoding Byte in.bin | python .\brainfuck-suite\run_bf.py .\brainfuck-suite\modules\calculator_add.bf
 
-     # write two bytes (4 and 5) to a file then pipe
-     [System.IO.File]::WriteAllBytes('in.bin', (,[byte]4 + [byte]5)) ; Get-Content -Encoding Byte in.bin | python .\brainfuck-suite\run_bf.py .\brainfuck-suite\modules\calculator_add.bf
+# Quick helper that runs non-interactive modules
+.\brainfuck-suite\run_all.ps1
+```
 
-Quick-run helper (PowerShell):
+Interpreter features
+- Supports Brainfuck commands: `+ - < > [ ] . ,`
+- Configurable tape size: `--cells`
+- Configurable cell width: `--cell-bits` (default 8)
+- Toggle wrapping on overflow: `--no-wrap`
+- Configurable maximum step count: `--max-steps`
 
-     .\brainfuck-suite\run_all.ps1
+Developer setup
+1. (Optional) Create and activate a Python virtual environment.
+2. Install dev dependencies:
 
-    type text and pipe it: echo "hello" | python run_bf.py modules/char_io.bf
+```powershell
+python -m pip install -U pip
+pip install -r requirements-dev.txt
+# or install tools individually: pip install pytest black flake8 mypy
+```
 
-5. Run calculator add (provides two bytes):
+CI
+- The repository includes a GitHub Actions workflow at `.github/workflows/python-tests.yml`. It runs on pushes and PRs targeting `main` and performs:
+  - pytest
+  - flake8
+  - black --check
+  - mypy
 
-    printf "\x04\x05" | python run_bf.py modules/calculator_add.bf
+Contributing
+- Pull requests are welcome. Please run tests and lint locally before opening a PR.
 
-Notes:
-- This interpreter is minimal and intended for educational use.
-- Brainfuck programs here may require adaptation for full correctness; they are annotated and simplified for readability.
+License
+- MIT
 
-License: MIT
+If you want, I can also add a `requirements-dev.txt`, contribution guidelines, or badges for code quality and coverage.
